@@ -111,92 +111,93 @@ contract TicTacToeGame {
 
             }
         } 
-        revert("Could not match to a valid transition.");
+        // revert("Could not match to a valid transition.");
+        revert();
         // return false;
     }
 
     // transition validations
 
     function validateRestToXplaying(bytes _old, bytes _new) private pure {
-        require(_new.noughts() == 0, "Noughts is not empty");
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(),0), "Invalid starting position"); // Xs moves first
-        require(_new.stake() == _old.stake(), "Stake was changed ");
+        require(_new.noughts() == 0);
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(),0)); // Xs moves first
+        require(_new.stake() == _old.stake());
         if (State.indexOfMover(_new) == 0) { // mover is A
-            require(_new.aResolution() == _old.aResolution() + _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() - _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() + _new.stake());
+            require(_new.bResolution() == _old.bResolution() - _new.stake());
         } else if (State.indexOfMover(_new) == 1) { // mover is B
-            require(_new.aResolution() == _old.aResolution() - _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() + _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() - _new.stake());
+            require(_new.bResolution() == _old.bResolution() + _new.stake());
         }
     }
 
     function validateRestToConcluded(bytes _old, bytes _new) private pure {
-        require(_new.aResolution() == _old.aResolution(), "Bad resolution A");
-        require(_new.bResolution() == _old.bResolution(), "Bad resolution B");
+        require(_new.aResolution() == _old.aResolution());
+        require(_new.bResolution() == _old.bResolution());
     }
 
     function validateXplayingToOplaying(bytes _old, bytes _new) private pure {
-        require(_new.stake() == _old.stake(), "Stake was changed");
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.noughts(), _old.noughts()), "Failed to make strictly one mark to noughts");
-        require((_new.crosses() == _old.crosses()), "Crosses was changed");   
+        require(_new.stake() == _old.stake());
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.noughts(), _old.noughts()));
+        require((_new.crosses() == _old.crosses()));   
         if (State.indexOfMover(_new) == 0) { // mover is A
-            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake(), "Bad resolution A"); 
-            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake()); 
+            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake());
         } else if (State.indexOfMover(_new) == 1) { // mover is B
-            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake());
+            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake());
             // note factor of 2 to swing fully to other player
         } 
     }
     
     function validateXplayingToVictory(bytes _old, bytes _new) private pure {
-        require(TicTacToeHelpers.hasWon(_new.noughts()), "Noughts does not feature a winning pattern");
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.noughts(), _old.noughts()), "Failed to make strictly one mark to noughts");
-        require((_new.crosses() == _old.crosses()), "Crosses was changed");   
+        require(TicTacToeHelpers.hasWon(_new.noughts()));
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.noughts(), _old.noughts()));
+        require((_new.crosses() == _old.crosses()));   
         if (State.indexOfMover(_new) == 0) { // mover is A
-            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake());
+            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake());
         } else if (State.indexOfMover(_new) == 1) { // mover is B
-            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake());
+            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake());
         } // mover gets to claim stakes
     } 
 
     function validateXplayingToRest(bytes _old, bytes _new) private pure {
-        require(_old.noughts() == 0, "Noughts is not empty"); // don't allow this transition unless noughts has yet to make any marks
+        require(_old.noughts() == 0); // don't allow this transition unless noughts has yet to make any marks
         if (State.indexOfMover(_new) == 0) { // Mover is A
             // revert balances
-            require(_new.aResolution() == _old.aResolution() + _old.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() - _old.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() + _old.stake());
+            require(_new.bResolution() == _old.bResolution() - _old.stake());
         } else if (State.indexOfMover(_new) == 1) { // Mover is B
             // revert balances
-            require(_new.aResolution() == _old.aResolution() - _old.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() + _old.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() - _old.stake());
+            require(_new.bResolution() == _old.bResolution() + _old.stake());
         } 
     }
 
     function validateOplayingToXplaying(bytes _old, bytes _new) private pure {
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(), _old.crosses()), "Failed to make strictly one mark to crosses");
-        require((_new.noughts() == _old.noughts()), "Noughts was changed");
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(), _old.crosses()));
+        require((_new.noughts() == _old.noughts()));
         if (State.indexOfMover(_new) == 0) { // mover is A
-            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake(), "Bad resolution A"); // note extra factor of 2 to swing fully to other player
-            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake()); // note extra factor of 2 to swing fully to other player
+            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake());
         } else if (State.indexOfMover(_new) == 1) { // mover is B
-            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake());
+            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake());
         } // mover gets to claim stakes: note factor of 2 to swing fully to other player
     }
 
     function validateOplayingToVictory(bytes _old, bytes _new) private pure {
-        require(TicTacToeHelpers.hasWon(_new.crosses()), "Crosses does not feature a winning pattern");
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(), _old.crosses()), "Failed to make strictly one mark to crosses");
-        require((_new.noughts() == _old.noughts()), "Noughts was changed");   
+        require(TicTacToeHelpers.hasWon(_new.crosses()));
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(), _old.crosses()));
+        require((_new.noughts() == _old.noughts()));   
         if (State.indexOfMover(_new) == 0) { // mover is A
-            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake());
+            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake());
         } else if (State.indexOfMover(_new) == 1) { // mover is B
-            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake());
+            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake());
         } // mover gets to claim stakes: note factor of 2 to swing fully to other player
     }
 
@@ -204,39 +205,39 @@ contract TicTacToeGame {
         require(TicTacToeHelpers.isDraw(_new.noughts(), _new.crosses()), "Board not full"); // check if board full. 
         // crosses always plays first move and always plays the move that completes the board
         if (State.indexOfMover(_new) == 0) {
-            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake(), "Bad resolution A"); // no extra factor of 2, restoring to parity
-            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() + 2 * _new.stake()); // no extra factor of 2, restoring to parity
+            require(_new.bResolution() == _old.bResolution() - 2 * _new.stake());
         } else if (State.indexOfMover(_new) == 1) {
-            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake(), "Bad resolution A");
-            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake(), "Bad resolution B");
+            require(_new.aResolution() == _old.aResolution() - 2 * _new.stake());
+            require(_new.bResolution() == _old.bResolution() + 2 * _new.stake());
         } // mover gets to restore parity to the winnings
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(), _old.crosses()), "Failed to make strictly one mark to crosses");
-        require((_new.noughts() == _old.noughts()), "Noughts was changed");
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(), _old.crosses()));
+        require((_new.noughts() == _old.noughts()));
     }
 
     function validateVictoryToRest(bytes _old, bytes _new) private pure {
-        require(_new.aResolution() == _old.aResolution(), "Bad resolution A");
-        require(_new.bResolution() == _old.bResolution(), "Bad resolution B");
+        require(_new.aResolution() == _old.aResolution());
+        require(_new.bResolution() == _old.bResolution());
     }
 
     function validateDrawToRest(bytes _old, bytes _new) private pure {
-        require(_new.aResolution() == _old.aResolution(), "Bad resolution A");
-        require(_new.bResolution() == _old.bResolution(), "Bad resolution B");
+        require(_new.aResolution() == _old.aResolution());
+        require(_new.bResolution() == _old.bResolution());
     }
 
     function validateVictoryToXplaying(bytes _old, bytes _new) private pure {
-        require(_new.aResolution() == _old.aResolution(), "Bad resolution A");
-        require(_new.bResolution() == _old.bResolution(), "Bad resolution B");
-        require(_new.noughts() == 0, "Noughts is not empty");
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(),0), "Failed to make strictly one mark to crosses");
+        require(_new.aResolution() == _old.aResolution());
+        require(_new.bResolution() == _old.bResolution());
+        require(_new.noughts() == 0);
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(),0));
          // crosses always goes first. there is no _old.crosses, so set to zero here
     }
 
     function validateDrawToXplaying(bytes _old, bytes _new) private pure {
-        require(_new.aResolution() == _old.aResolution(), "Bad resolution A");
-        require(_new.bResolution() == _old.bResolution(), "Bad resolution B");
-        require(_new.noughts() == 0, "Noughts is not empty");
-        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(),0), "Failed to make strictly one mark to crosses");
+        require(_new.aResolution() == _old.aResolution());
+        require(_new.bResolution() == _old.bResolution());
+        require(_new.noughts() == 0);
+        require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(),0));
          // crosses always goes first. there is no _old.crosses, so set to zero here
     }
 
