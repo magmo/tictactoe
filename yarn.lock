@@ -1827,7 +1827,7 @@ async-eventemitter@^0.2.2:
   dependencies:
     async "^2.4.0"
 
-"async-eventemitter@github:ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c":
+async-eventemitter@ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c:
   version "0.2.3"
   resolved "https://codeload.github.com/ahultgren/async-eventemitter/tar.gz/fa06e39e56786ba541c180061dbf2c0a5bbf951c"
   dependencies:
@@ -11026,6 +11026,11 @@ redux-saga-firebase@^0.14.1:
   integrity sha512-JrokI3+zX7cmLI3BtWmmwHCtALF35BccphStY+OtN2QwHfuedakVMh0fwQrkO3qBwyYCK3U6sqOCa5YF3HYUEw==
   dependencies:
     "@babel/runtime" "^7.0.0-beta.56"
+
+redux-saga-tester@^1.0.381:
+  version "1.0.381"
+  resolved "https://registry.yarnpkg.com/redux-saga-tester/-/redux-saga-tester-1.0.381.tgz#9ea1348bb887aa67cbe40f33ba67f28b08177a83"
+  integrity sha512-F9jBiRXadEjV8h54656f2Iz8AoSDhdMQjJwEiJ3rVbx97TQxX5CPJRMdVSHUUT5rcZGyLplags9XPmS7iIhECA==
 
 redux-saga@^0.16.2:
   version "0.16.2"
