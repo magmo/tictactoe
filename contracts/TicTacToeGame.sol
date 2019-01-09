@@ -122,7 +122,7 @@ contract TicTacToeGame {
     // transition validations
 
     function validateRestToXplaying(bytes _old, bytes _new) private pure {
-        require(_new.noughts() == 0);
+        require(_new.noughts() == 0, " a test error message");
         require(TicTacToeHelpers.madeStrictlyOneMark(_new.crosses(),0)); // Xs moves first
         require(_new.stake() == _old.stake());
         if (State.indexOfMover(_new) == 0) { // mover is A
