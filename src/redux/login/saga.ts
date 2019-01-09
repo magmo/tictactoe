@@ -8,6 +8,7 @@ import metamaskSaga from '../metamask/saga';
 import TTTGameArtifact from '../../../contracts/artifacts/TicTacToeGame.json';
 
 function* loginSaga() {
+  console.log('in login saga!');
   try {
     yield call(reduxSagaFirebase.auth.signInAnonymously);
     // successful login will trigger the loginStatusWatcher, which will update the state
@@ -66,6 +67,8 @@ export default function* loginRootSaga() {
 
 function* getLibraryAddress() {
   const selectedNetworkId = parseInt(yield cps(web3.version.getNetwork), 10);
-  return TTTGameArtifact.networks[selectedNetworkId].address;
+  console.log(selectedNetworkId);
+  // return TTTGameArtifact.networks[selectedNetworkId].address;
+  return TTTGameArtifact.networks[4447].address;
 }
 
